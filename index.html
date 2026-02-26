@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome — [Your Company Name]</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0a0a0f;
+      --bg2:     #0f0f1a;
+      --bg3:     #141424;
+      --surface: #1a1a2e;
+      --surf2:   #1f1f35;
+      --gold:    #c9a84c;
+      --gold2:   #e8c96a;
+      --gold3:   rgba(201,168,76,0.12);
+      --gold4:   rgba(201,168,76,0.06);
+      --text:    #f0eeea;
+      --muted:   rgba(240,238,234,0.5);
+      --muted2:  rgba(240,238,234,0.28);
+      --border:  rgba(201,168,76,0.18);
+      --border2: rgba(255,255,255,0.07);
+      --radius:  12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 15% 0%,   rgba(201,168,76,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 85% 100%, rgba(201,168,76,0.05) 0%, transparent 50%);
+      pointer-events: none; z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+
+    .page-wrap {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 2.5rem 1.25rem 4rem;
+      min-height: 100vh;
+    }
+
+    /* ── Top accent ── */
+    .top-bar {
+      width: 100%; max-width: 560px;
+      display: flex; align-items: center;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.6s ease both;
+    }
+    .top-bar-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+    .top-bar-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--gold); margin: 0 0.75rem;
+      box-shadow: 0 0 8px var(--gold);
+      animation: glow 2.5s ease-in-out infinite;
+    }
+    @keyframes glow {
+      0%,100% { box-shadow: 0 0 6px var(--gold); }
+      50%      { box-shadow: 0 0 16px var(--gold2); }
+    }
+
+    /* ── Logo block ── */
+    .logo-block {
+      display: flex; flex-direction: column; align-items: center;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+
+    .logo-placeholder {
+      width: 100px; height: 100px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, var(--surface), var(--surf2));
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      margin-bottom: 1.2rem;
+      position: relative;
+      box-shadow: 0 0 0 1px rgba(201,168,76,0.08), 0 12px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+    .logo-placeholder::before {
+      content: '';
+      position: absolute; inset: -3px;
+      border-radius: 18px;
+      background: conic-gradient(from 0deg, transparent 60%, var(--gold) 70%, transparent 80%);
+      animation: spin-slow 6s linear infinite;
+      z-index: -1; opacity: 0.5;
+    }
+    @keyframes spin-slow { to { transform: rotate(360deg); } }
+
+    .logo-icon { font-size: 2.4rem; line-height: 1; margin-bottom: 0.3rem; }
+    .logo-text-small {
+      font-size: 0.52rem; font-weight: 600;
+      color: var(--gold); letter-spacing: 0.25em; text-transform: uppercase;
+    }
+
+    .company-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.1rem; font-weight: 300;
+      color: var(--text); letter-spacing: 0.06em;
+      text-align: center; line-height: 1.2;
+    }
+    .company-name strong { font-weight: 600; color: var(--gold); }
+
+    .company-tagline {
+      font-size: 0.72rem; font-weight: 500;
+      color: var(--muted); letter-spacing: 0.2em;
+      text-transform: uppercase; margin-top: 0.4rem; text-align: center;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--bg2);
+      border-radius: var(--radius);
+      border: 1px solid var(--border2);
+      padding: 2.5rem 2rem;
+      width: 100%; max-width: 520px;
+      box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 20px 60px rgba(0,0,0,0.5);
+      animation: fadeUp 0.8s 0.15s ease both;
+      position: relative; overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--gold2), var(--gold), transparent);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .welcome-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem; font-weight: 600;
+      color: var(--text); margin-bottom: 0.4rem; line-height: 1.25;
+    }
+    .welcome-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.8rem; line-height: 1.6; }
+    .accent-line {
+      width: 36px; height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--gold2));
+      border-radius: 2px; margin-bottom: 1.8rem;
+    }
+
+    /* ── Fields ── */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+    .form-group { display: flex; flex-direction: column; margin-bottom: 1rem; }
+    .form-group.full { grid-column: 1 / -1; }
+
+    label.field-label {
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.4rem;
+    }
+
+    input[type="text"], input[type="email"], input[type="tel"], textarea, select {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      width: 100%;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--gold);
+      background: var(--surf2);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+    }
+    input::placeholder, textarea::placeholder { color: var(--muted2); }
+    textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+    select {
+      cursor: pointer; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem;
+    }
+    select option { background: var(--surface); }
+
+    /* ── Radios ── */
+    .radio-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .radio-option {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.7rem 1rem;
+      border: 1px solid var(--border2); border-radius: 8px;
+      cursor: pointer; transition: all 0.2s; background: var(--surface);
+    }
+    .radio-option:hover { border-color: var(--gold); background: var(--gold4); }
+    .radio-option input[type="radio"] { display: none; }
+    .radio-dot {
+      width: 18px; height: 18px; border-radius: 50%;
+      border: 2px solid var(--border2); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .radio-option:has(input:checked) { border-color: var(--gold); background: var(--gold3); }
+    .radio-option:has(input:checked) .radio-dot {
+      border-color: var(--gold); background: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+    }
+    .radio-option:has(input:checked) .radio-dot::after {
+      content: ''; width: 6px; height: 6px;
+      border-radius: 50%; background: var(--bg);
+    }
+    .radio-label { font-size: 0.88rem; color: var(--text); }
+
+    /* ── POPIA ── */
+    .popia-wrap {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      padding: 1rem;
+      background: var(--surface); border-radius: 8px;
+      border: 1px solid var(--border2);
+      margin-top: 0.5rem; cursor: pointer; transition: border-color 0.2s;
+    }
+    .popia-wrap:hover { border-color: var(--gold); }
+    .popia-wrap input[type="checkbox"] { display: none; }
+    .check-box {
+      width: 20px; height: 20px; border-radius: 5px;
+      border: 2px solid var(--border2); flex-shrink: 0; margin-top: 1px;
+      transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+      background: var(--surf2);
+    }
+    .popia-wrap:has(input:checked) .check-box { background: var(--gold); border-color: var(--gold); }
+    .popia-wrap:has(input:checked) .check-box::after {
+      content: '✓'; color: var(--bg); font-size: 0.75rem; font-weight: 700;
+    }
+    .popia-text { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+    .popia-text strong { color: var(--text); }
+
+    /* ── Submit ── */
+    .btn-submit {
+      width: 100%; padding: 0.95rem;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: var(--bg);
+      font-family: 'DM Sans', sans-serif; font-weight: 700;
+      font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase;
+      border: none; border-radius: 8px; cursor: pointer;
+      transition: all 0.3s; margin-top: 1.5rem;
+      position: relative; overflow: hidden;
+    }
+    .btn-submit::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.18), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .btn-submit:hover::after { opacity: 1; }
+    .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(201,168,76,0.4); }
+    .btn-submit:disabled { opacity: 0.3; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* ── Success ── */
+    .success-screen { display: none; flex-direction: column; align-items: center; text-align: center; padding: 1rem 0; }
+    .success-screen.show { display: flex; animation: fadeUp 0.6s ease both; }
+    .success-icon-wrap {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; color: var(--bg); font-weight: 700;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 8px 32px rgba(201,168,76,0.4);
+    }
+    .success-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem;
+    }
+    .success-sub { font-size: 0.88rem; color: var(--muted); max-width: 320px; line-height: 1.6; margin-bottom: 1.8rem; }
+    .success-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
+
+    .btn-another {
+      padding: 0.7rem 1.4rem;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-another:hover { background: var(--surf2); border-color: var(--gold); }
+
+    .btn-whatsapp {
+      padding: 0.7rem 1.4rem;
+      background: #25D366; border: none; border-radius: 8px;
+      color: #fff !important;
+      font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+      display: flex; align-items: center; gap: 0.5rem;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-whatsapp:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* ── Footer ── */
+    .footer { margin-top: 2.5rem; text-align: center; animation: fadeUp 1s 0.3s ease both; }
+    .footer-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem; font-style: italic; color: var(--muted2); margin-bottom: 0.5rem;
+    }
+    .footer-credit { font-size: 0.68rem; color: rgba(240,238,234,0.2); letter-spacing: 0.15em; text-transform: uppercase; }
+    .footer-credit a { color: var(--gold); text-decoration: none; transition: opacity 0.2s; }
+    .footer-credit a:hover { opacity: 0.75; }
+
+    @media(max-width: 480px) {
+      .form-row { grid-template-columns: 1fr; }
+      .card { padding: 1.75rem 1.25rem; }
+      .company-name { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="top-bar">
+    <div class="top-bar-line"></div>
+    <div class="top-bar-dot"></div>
+    <div class="top-bar-line"></div>
+  </div>
+
+  <div class="logo-block">
+    <div class="logo-placeholder">
+      <div class="logo-icon">⬡</div>
+      <div class="logo-text-small">Your Logo</div>
+    </div>
+    <div class="company-name">[Your <strong>Company</strong> Name]</div>
+    <div class="company-tagline">[Your Tagline Here]</div>
+  </div>
+
+  <div class="card">
+
+    <div class="welcome-heading">Welcome — we'd love to<br/>get to know you.</div>
+    <div class="welcome-sub">Fill in your details below and a member of our team will be in touch with you shortly.</div>
+    <div class="accent-line"></div>
+
+    <form id="visitorForm" action="https://formsubmit.co/YOUR_EMAIL_HERE" method="POST">
+      <input type="hidden" name="_subject"  value="New Visitor Submission — [Your Company Name]"/>
+      <input type="hidden" name="_captcha"  value="false"/>
+      <input type="hidden" name="_template" value="table"/>
+      <input type="hidden" name="_ajax"     value="true"/>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="field-label" for="firstName">First Name *</label>
+          <input type="text" id="firstName" name="First Name" placeholder="Sarah" required/>
+        </div>
+        <div class="form-group">
+          <label class="field-label" for="surname">Surname *</label>
+          <input type="text" id="surname" name="Surname" placeholder="Smith" required/>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="field-label" for="contact">Contact Number *</label>
+          <input type="tel" id="contact" name="Contact Number" placeholder="082 000 0000" required/>
+        </div>
+        <div class="form-group">
+          <label class="field-label" for="email">Email Address</label>
+          <input type="email" id="email" name="Email Address" placeholder="sarah@email.com"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="field-label">How can we help you? *</label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="purpose" value="Just browsing / exploring" required/>
+            <span class="radio-dot"></span>
+            <span class="radio-label">Just browsing / exploring</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="purpose" value="I'd like more information"/>
+            <span class="radio-dot"></span>
+            <span class="radio-label">I'd like more information</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="purpose" value="Please contact me — I'm ready to proceed"/>
+            <span class="radio-dot"></span>
+            <span class="radio-label">Please contact me — I'm ready to proceed</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="field-label" for="message">Message or Enquiry <span style="font-weight:300;text-transform:none;letter-spacing:0;font-size:0.75rem">(optional)</span></label>
+        <textarea id="message" name="Message" placeholder="Tell us a bit about what you're looking for..."></textarea>
+      </div>
+
+      <label class="popia-wrap" for="popiaConsent">
+        <input type="checkbox" id="popiaConsent" name="POPIA Consent" value="Yes — Consented" required/>
+        <span class="check-box"></span>
+        <span class="popia-text">
+          <strong>I consent</strong> to [Company Name] collecting and storing my personal information for follow-up communication. My information will not be shared with third parties and I may request removal at any time. <em>(POPIA compliant)</em>
+        </span>
+      </label>
+
+      <button type="submit" class="btn-submit" id="submitBtn" disabled>
+        Submit My Details
+      </button>
+    </form>
+
+    <div class="success-screen" id="successScreen">
+      <div class="success-icon-wrap">✓</div>
+      <div class="success-title">Thank you!</div>
+      <div class="success-sub">Your details have been received. A member of our team will be in touch with you shortly.</div>
+      <div class="success-actions">
+        <button class="btn-another" id="btnAnother">+ Add Another Person</button>
+        <a class="btn-whatsapp" id="btnWhatsApp" href="#" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Share via WhatsApp
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-tagline">"[Your brand quote or tagline here]"</div>
+    <div class="footer-credit">
+      Powered by <a href="https://www.clariti.online" target="_blank">Clariti</a>
+      &nbsp;·&nbsp; Digital Visitor Solutions &nbsp;·&nbsp; clariti.online
+    </div>
+  </div>
+
+</div>
+<script>
+  const SUPABASE_URL = 'https://xvrztpeoznekmmqvmocr.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh2cnp0cGVvem5la21tcXZtb2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNjQzNDUsImV4cCI6MjA4NzY0MDM0NX0.90XvPAmwRm2cMwqGIQBv0eDkPzELw8TXc5cUXtnRzKg';
+  const CLIENT_NAME = '[Your Company Name]'; // ← UPDATE PER CLIENT
+  const WA_NUMBER   = '27XXXXXXXXXX';        // ← UPDATE PER CLIENT
+
+  let lastSub = {};
+
+  const consent   = document.getElementById('popiaConsent');
+  const submitBtn = document.getElementById('submitBtn');
+  consent.addEventListener('change', () => submitBtn.disabled = !consent.checked);
+
+  const form          = document.getElementById('visitorForm');
+  const successScreen = document.getElementById('successScreen');
+
+  function buildWhatsApp() {
+    const name = lastSub.firstName + ' ' + lastSub.surname;
+    let msg = `👋 Hello ${CLIENT_NAME}!\n\nI just submitted my details. Here's my information:\n\n`;
+    msg += `📛 *Name:* ${name}\n`;
+    msg += `📞 *Contact:* ${lastSub.contact || 'Not provided'}\n`;
+    msg += `📧 *Email:* ${lastSub.email || 'Not provided'}\n`;
+    msg += `🎯 *Enquiry:* ${lastSub.purpose || 'Not specified'}\n`;
+    if (lastSub.message) msg += `\n💬 *Message:*\n${lastSub.message}\n`;
+    msg += `\n_Submitted via ${CLIENT_NAME} — powered by Clariti_`;
+    document.getElementById('btnWhatsApp').href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+  }
+
+  function showSuccess() {
+    buildWhatsApp();
+    form.style.display = 'none';
+    successScreen.classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    submitBtn.textContent = 'Sending…';
+    submitBtn.disabled = true;
+
+    const firstName = document.getElementById('firstName').value.trim();
+    const surname   = document.getElementById('surname').value.trim();
+    const contact   = document.getElementById('contact').value.trim();
+    const email     = document.getElementById('email').value.trim();
+    const purposeEl = document.querySelector('input[name="purpose"]:checked');
+    const purpose   = purposeEl ? purposeEl.value : 'Not specified';
+    const message   = document.getElementById('message').value.trim();
+    lastSub = { firstName, surname, contact, email, purpose, message };
+
+    // 1️⃣ Supabase — primary data store
+    fetch(SUPABASE_URL + '/rest/v1/submissions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        client_name:   CLIENT_NAME,
+        first_name:    firstName,
+        surname:       surname,
+        contact:       contact,
+        email:         email,
+        purpose:       purpose,
+        message:       message || null,
+        popia_consent: 'Yes — Consented',
+        status:        'Pending'
+      })
+    }).catch(err => console.warn('Supabase:', err));
+
+    // 2️⃣ FormSubmit — email notification
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).catch(() => {});
+
+    showSuccess();
+  });
+
+  document.getElementById('btnAnother').addEventListener('click', () => {
+    form.reset();
+    form.style.display = 'block';
+    successScreen.classList.remove('show');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submit My Details';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+</body>
+</html>
